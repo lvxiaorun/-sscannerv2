@@ -54,5 +54,27 @@ func VerifyStraight(cards []int8) bool {
 		return false
 	}
 	return true
+}
 
+func VerifySuccessivePair(cards []int8) bool {
+	mcards := tool.Int8SliceToMap(cards)
+	for key := range mcards {
+		if key == 2 {
+			return false
+		}
+		if mcards[key] != 2 {
+			return false
+		}
+		var cardsVerify []int8
+		if cards[0] == 1 {
+			cardsVerify = append(cards[2:], 14, 14)
+		} else {
+			cardsVerify = cards
+		}
+		length := len(cardsVerify)
+		if cardsVerify[length-1]-cardsVerify[0] != int8(length)/2-1 {
+			return false
+		}
+	}
+	return true
 }
