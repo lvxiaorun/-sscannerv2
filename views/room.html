@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://www.imooc.com/static/lib/jquery/1.9.1/jquery.js"></script>
+    <title>Title</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log($('#room_id').html())
+            var roomId = $('#room_id').html()
+            var uid = $('#uid').html()
+            //建立websocket链接
+            if (window["WebSocket"]) {
+                conn = new WebSocket("ws://" + document.location.host + "/ws"+"?uid="+uid+"&room_id="+roomId);
+                conn.onmessage = function (evt) {
+                    console.log(evt.data)
+                }
+                $('#send').click(function () {
+                    if (!conn){
+                        alert("连接不存在")
+                        return
+                    }else {
+                        //console.log($('#msg_text').val())
+                        let message = JSON.stringify({
+                            "action":1,
+                            "room_id":parseInt(roomId),
+                            "text":"我进入了"+roomId+"房间"
+                        })
+                        conn.send(message)
+                    }
+                })
+                $('#ready').click(function () {
+                    if (!conn){
+                        alert("连接不存在")
+                        return
+                    }else {
+                        let message = JSON.stringify({
+                            "action":2,
+                            "text":"I'm ready"
+                        })
+                        conn.send(message)
+                    }
+                })
+            }else {
+                alert("不支持websocket连接");
+                return
+            }
+        })
+    </script>
+</head>
+<body>
+<div>
+    <input type="text" id="msg_text" >
+    <input type="button" value="发送" id="send">
+    <input type="button" value="准备" id="ready">
+</div>
+<p id = "room_id" hidden="true">{{.room_id}}</p>
+<p id = "uid" hidden="true">{{.uid}}</p>
+</body>
+</html>

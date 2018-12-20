@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://www.imooc.com/static/lib/jquery/1.9.1/jquery.js"></script>
+    <title>Title</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url:"/rooms",
+                type:"get",
+                success :function (data) {
+                    console.log(data)
+                    var t= $("#rooms")
+                    for (var i =0;i<data.length;i++){
+                        var tr = $('<tr></tr>')
+                        var tdid = $('<td></td>')
+                        var tdname = $('<td></td>')
+                        var intoButton = $('<button id='+data[i].Id +' type="button" onclick="IntoRoom(this.id)" >')
+                        tdid.append(data[i].Id)
+                        tdname.append(data[i].Describe)
+                        tdid.appendTo(tr)
+                        tdname.appendTo(tr)
+                        intoButton.appendTo(tr)
+                        tr.appendTo(t)
+                    }
+                }
+            })
+        })
+        function IntoRoom(id) {
+            console.log(id)
+            var uid = $("#uid").val()
+            if (uid == ''){
+                alert("please input uid")
+                return
+            }
+            window.location.href = "/intoroom?room_id="+id+"&uid="+uid
+        }
+    </script>
+</head>
+<body>
+<div>
+    <input type="text" placeholder="uid" id="uid">
+    <table id="rooms" border="1px">
+        <tr>
+            <th>房间id</th>
+            <th>房间描述</th>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

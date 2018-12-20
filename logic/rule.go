@@ -1,6 +1,6 @@
 package logic
 
-import "github.com/lvxiaorun/andlords/tool"
+import "github.com/lvxiaorun/landlord/tool"
 
 //this func will get a args of number 1-15 and it have sorted small to big
 func VerifyCards(cards []int8) bool {
